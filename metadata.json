@@ -1,0 +1,8 @@
+{
+  "name": "Klinik SSDI UNUGHA",
+  "description": "Platform layanan digital terintegrasi untuk konsultasi IT, manajemen aset digital, dan rekam medis elektronik civitas akademika UNUGHA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

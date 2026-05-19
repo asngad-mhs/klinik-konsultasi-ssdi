@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Playfair Display", serif;
+
+  --color-unugha-green: #14532d;
+  --color-unugha-lime: #84cc16;
+  --color-digital-blue: #3b82f6;
+  --color-medical-bg: #f8fafc;
+}
+
+@layer base {
+  body {
+    @apply bg-medical-bg text-slate-900 font-sans;
+  }
+}
+
+.glass-panel {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-lg;
+}
+
+.tech-grid {
+  background-image: radial-gradient(circle at 1px 1px, #e2e8f0 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.medical-gradient {
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+}
