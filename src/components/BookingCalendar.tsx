@@ -18,9 +18,30 @@ export function BookingCalendar() {
     end: endOfMonth(selectedDate),
   });
 
-  const handleBooking = (e: React.FormEvent) => {
+  const handleBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSuccess(true);
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      service: formData.get('service'),
+      idNumber: formData.get('idNumber'),
+      email: formData.get('email'),
+      description: formData.get('description'),
+      date: format(selectedDate, 'yyyy-MM-dd'),
+      time: selectedTime,
+    };
+
+    try {
+      const response = await fetch('/api/appointments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        setIsSuccess(true);
+      }
+    } catch (error) {
+      console.error('Booking failed:', error);
+    }
   };
 
   return (
@@ -110,7 +131,7 @@ export function BookingCalendar() {
                     <form onSubmit={handleBooking} className="space-y-6">
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Layanan</label>
-                        <select className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:ring-2 focus:ring-unugha-green/20 focus:border-unugha-green outline-none transition-all">
+                        <select name="service" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:ring-2 focus:ring-unugha-green/20 focus:border-unugha-green outline-none transition-all">
                           <option>Optimasi WiFi Kampus</option>
                           <option>Manajemen Domain UNUGHA</option>
                           <option>Integrasi SIAKAD</option>
@@ -122,13 +143,13 @@ export function BookingCalendar() {
                         <div className="space-y-2 text-slate-300 focus-within:text-unugha-green transition-colors">
                            <div className="flex items-center gap-2 border border-slate-200 bg-white rounded-2xl p-4 focus-within:border-unugha-green">
                              <User size={18} />
-                             <input type="text" placeholder="NIM/NIDN" className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full" required />
+                             <input name="idNumber" type="text" placeholder="NIM/NIDN" className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full" required />
                            </div>
                         </div>
                         <div className="space-y-2 text-slate-300 focus-within:text-unugha-green transition-colors">
                            <div className="flex items-center gap-2 border border-slate-200 bg-white rounded-2xl p-4 focus-within:border-unugha-green">
                              <Mail size={18} />
-                             <input type="email" placeholder="Email" className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full" required />
+                             <input name="email" type="email" placeholder="Email" className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full" required />
                            </div>
                         </div>
                       </div>
@@ -136,7 +157,7 @@ export function BookingCalendar() {
                       <div className="space-y-2 text-slate-300 focus-within:text-unugha-green transition-colors">
                         <div className="flex items-baseline gap-2 border border-slate-200 bg-white rounded-2xl p-4 focus-within:border-unugha-green">
                            <MessageSquare size={18} className="mt-1" />
-                           <textarea placeholder="Deskripsi Masalah..." className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full min-h-[100px] resize-none" required />
+                           <textarea name="description" placeholder="Deskripsi Masalah..." className="bg-transparent border-none outline-none text-sm font-medium text-slate-900 w-full min-h-[100px] resize-none" required />
                         </div>
                       </div>
 

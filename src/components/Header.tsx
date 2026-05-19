@@ -1,8 +1,39 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Activity, Shield, Users, Globe, Network, Calendar as CalendarIcon, LogIn } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export function Navbar() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [nim, setNim] = useState('');
+
+  const handleLogin = async () => {
+    if (!nim) {
+      const input = prompt("Masukkan NIM/NIDN anda untuk Login SIAKAD:");
+      if (!input) return;
+      
+      try {
+        const res = await fetch('/api/auth/siakad', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: input })
+        });
+        const data = await res.json();
+        if (data.success) {
+          setIsLoggedIn(true);
+          setNim(input);
+        } else {
+          alert("Gagal Login: " + data.message);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      setIsLoggedIn(false);
+      setNim('');
+    }
+  };
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass-panel h-16 flex items-center px-6 justify-between">
       <div className="flex items-center gap-2">
@@ -21,9 +52,15 @@ export function Navbar() {
         <a href="#booking" className="hover:text-unugha-green transition-colors">Janji Temu</a>
       </div>
 
-      <button className="flex items-center gap-2 bg-unugha-green text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg shadow-unugha-green/20 hover:scale-105 transition-transform active:scale-95">
+      <button 
+        onClick={handleLogin}
+        className={cn(
+          "flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold shadow-lg transition-all active:scale-95",
+          isLoggedIn ? "bg-slate-100 text-slate-600" : "bg-unugha-green text-white shadow-unugha-green/20 hover:scale-105"
+        )}
+      >
         <LogIn size={16} />
-        SIAKAD Login
+        {isLoggedIn ? `Logout (${nim})` : 'SIAKAD Login'}
       </button>
     </nav>
   );

@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useState, useEffect } from 'react';
 import { SPECIALISTS, MOCK_RECORDS } from '../constants';
 import { Activity, Clock, ShieldCheck, AlertCircle, CheckCircle2, MoreVertical, Calendar as CalendarIcon, MapPin, ChevronRight, Network } from 'lucide-react';
 import { cn } from '../lib/utils';
@@ -14,6 +15,21 @@ const CHART_DATA = [
 ];
 
 export function SpecialistSection() {
+  const [doctors, setDoctors] = useState(SPECIALISTS);
+
+  useEffect(() => {
+    fetch('/api/specialists')
+      .then(res => res.json())
+      .then(data => {
+        // Merge status from API with constants
+        const merged = SPECIALISTS.map(s => {
+          const apiDoc = data.find((d: any) => d.id === s.id);
+          return { ...s, role: apiDoc?.role || s.role, availability: apiDoc?.status ? [apiDoc.status] : s.availability };
+        });
+        setDoctors(merged);
+      });
+  }, []);
+
   return (
     <section id="specialists" className="py-24 px-6 bg-slate-50">
       <div className="max-w-7xl mx-auto">
@@ -25,7 +41,7 @@ export function SpecialistSection() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {SPECIALISTS.map((specialist, i) => (
+          {doctors.map((specialist, i) => (
             <motion.div
               key={specialist.id}
               initial={{ opacity: 0, y: 20 }}
