@@ -210,24 +210,32 @@ export function DigitalEMR() {
 
             <div className="bg-white border border-slate-200 rounded-[2.5rem] p-8">
                <div className="flex items-center justify-between mb-6">
-                 <h4 className="font-bold text-slate-900">Integrasi Sistem</h4>
-                 <ShieldCheck size={20} className="text-unugha-lime" />
+                 <h4 className="font-bold text-slate-900">Hotspot Status Kampus</h4>
+                 <MapPin size={20} className="text-unugha-lime" />
                </div>
                <div className="space-y-4">
                  {[
-                   { name: 'SIAKAD UNUGHA', status: 'Connected' },
-                   { name: 'SSDI Core API', status: 'Connected' },
-                   { name: 'Portal Mahasiswa', status: 'Maintenance' },
-                 ].map(sys => (
-                   <div key={sys.name} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                     <p className="text-sm font-medium text-slate-700">{sys.name}</p>
+                   { name: 'Gedung Rektorat (Lobby)', status: 'Optimal' },
+                   { name: 'Aula Gedung A (Lt. 1)', status: 'High Load' },
+                   { name: 'Perpustakaan Pusat', status: 'Optimal' },
+                   { name: 'Laboratorium Terpadu', status: 'Offline' },
+                 ].map(area => (
+                   <div key={area.name} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
+                     <div className="flex flex-col">
+                       <p className="text-xs font-bold text-slate-700">{area.name}</p>
+                       <p className="text-[10px] text-slate-400 capitalize">Cakupan WiFi SSDI</p>
+                     </div>
                      <p className={cn(
                        "text-[10px] font-bold uppercase",
-                       sys.status === 'Connected' ? "text-emerald-500" : "text-amber-500"
-                     )}>{sys.status}</p>
+                       area.status === 'Optimal' ? "text-emerald-500" : 
+                       area.status === 'Offline' ? "text-rose-500" : "text-amber-500"
+                     )}>{area.status}</p>
                    </div>
                  ))}
                </div>
+               <button className="w-full mt-6 py-3 bg-slate-50 text-slate-500 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-slate-100 transition-colors">
+                 Lihat Peta Jaringan Lengkap
+               </button>
             </div>
           </div>
 

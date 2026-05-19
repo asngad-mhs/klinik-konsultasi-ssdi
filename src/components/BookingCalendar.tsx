@@ -132,10 +132,12 @@ export function BookingCalendar() {
                       <div className="space-y-2">
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">Layanan</label>
                         <select name="service" className="w-full bg-white border border-slate-200 rounded-2xl p-4 text-sm font-medium focus:ring-2 focus:ring-unugha-green/20 focus:border-unugha-green outline-none transition-all">
-                          <option>Optimasi WiFi Kampus</option>
-                          <option>Manajemen Domain UNUGHA</option>
-                          <option>Integrasi SIAKAD</option>
-                          <option>Perbaikan Email Institusi</option>
+                          <option>Permasalahan Login SIAKAD</option>
+                          <option>Request Akun Email UNUGHA</option>
+                          <option>Aktivasi E-Learning / Moodle</option>
+                          <option>Keluhan Kecepatan WiFi Kampus</option>
+                          <option>Pengajuan Hosting Web UKM</option>
+                          <option>Lisensi Software Mahasiswa</option>
                         </select>
                       </div>
 
